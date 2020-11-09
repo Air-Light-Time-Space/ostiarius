@@ -1,0 +1,7 @@
+__pycache__/
+*.mpy
+
+*.key
+*.cert
+
+*.db

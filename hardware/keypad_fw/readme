@@ -1,0 +1,24 @@
+miniterm.py /dev/ttyUSB0 115200
+
+>>> import upip
+
+>>> import network
+
+>>> station = network.WLAN(network.STA_IF)
+
+>>> station.active(True)
+
+>>> station.connect("tempwifi", "key123key")
+
+>>> station.isconnected()
+
+>>> upip.install("micropython-uasyncio")
+
+>>> upip.install("micropython-uasyncio.queues")
+
+
+
+lan = network.LAN(mdc = machine.Pin(23), mdio = machine.Pin(18), power=machine.Pin(12), phy_type = network.PHY_LAN8720, phy_addr=0, clock_mode=network.ETH_CLOCK_GPIO17_OUT)
+
+
+nmap --script=http-title 192.168.1.0/24 -p443

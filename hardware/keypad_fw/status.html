@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Ostiarius Keypad Status</title>
+    </head>
+    <body>
+        <a href="/logout">logout</a> | <a href="/config">config</a><br />
+        <h3>Status:</h3>
+        <div id="content">
+            <b>Allocated memory:</b> @MEM_USED<br />
+            <b>Free memory:</b> @MEM_FREE<br />
+            <br />
+            <form action="@UPDATE_ACTION@" method="post" enctype="multipart/form-data">
+                <b>Base system:</b> @SYS_VERSION<br />
+                <b>Firmware:</b> @FW_VERSION<br />
+                <b>Upgrade firmware:</b> <input type="file" name="new_firmware"><br />
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Ostiarius Keypad Configuration</title>
+    </head>
+    <body>
+        <a href="/logout">logout</a> | <a href="/status">status</a><br />
+        <h3>Configuration:</h3>
+        <div id="content">
+            <form action="config" method="post">
+                <h4>Network settings:</h4>
+                Connect using Ethernet: <input type="radio" value="use_ether" name="connect" @USE_ETHER_CHECK/><br />
+                Connect using wifi: <input type="radio" value="use_wifi" name="connect" @USE_WIFI_CHECK/><br />
+                Wifi SSID: <input type="text" value="@WIFI_SSID" name="wlan_ssid">
+                Wifi Password: <input type="password" value="@WIFI_PASS" name="wlan_pass"><br />
+                <br>
+                IP Address: <input type="text" value="@IP_ADDR" name="ip_address" /> <input type="checkbox" value="on" name="use_dhcp" @USE_DHCP>Auto<br />
+                Subnet Mask: <input type="text" value="@SUBNET" name="subnet" /><br />
+                Gateway: <input type="text" value="@GATEWAY" name="gateway" /><br />
+                DNS: <input type="text" value="@DNS" name="dns" /><br />
+                <br>
+                Auth Server: <input type="text" value="@AUTH_SERVER" name="auth_server" /><br />
+                Realm: <input type="text" value="@REALM" name="realm" /><br />
+                <hr>
+                <h4>Keypad settings:</h4>
+                Unlatch duration: <input type="text" value="@UNLATCH_DURATION" name="unlatch_duration" /> seconds<br />
+                <input type="checkbox" value="on" name="remote_unlatch" @REMOTE_UNLATCH_CHECK>Allow remote trigger of latch</br />
+                <br>
+                Auxiliary function A: <input type="text" value="@AUX_A" name="aux_a" /><br />
+                Auxiliary function B: <input type="text" value="@AUX_B" name="aux_b" /><br />
+                Auxiliary function C: <input type="text" value="@AUX_C" name="aux_c" /><br />
+                Auxiliary function D: <input type="text" value="@AUX_D" name="aux_d" /><br />
+                <hr>
+                <h4>General settings:</h4>
+                Change admin password: <input type="password" value="" name="newpw" /><br />
+                Confirm new password: <input type="password" value="" name="pwconf" /><br />
+                <br>
+                <input type="checkbox" value="disabled" name="disable_admin" @DISABLE_ADMIN_CHECK>Disable this admin interface (Recommended)</br />
+                <i>Admin interface can be re-enabled using *88</i><br />
+                <hr />
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+    </body>
+
+</html>

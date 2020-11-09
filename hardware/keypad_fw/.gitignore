@@ -1,0 +1,9 @@
+__pycache__/
+*.mpy
+
+*.key
+*.cert
+
+config
+checksums.txt
+
