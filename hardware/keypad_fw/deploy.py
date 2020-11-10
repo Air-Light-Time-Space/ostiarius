@@ -114,6 +114,31 @@ except IndexError:
     else:
         port = userSelect(ports, "Which port?")
 
+# Select a base image:
+
+try:
+    base_image = sys.argv[2]
+except IndexError:
+    images = list(filter(lambda f: f.endswith(".bin"), os.listdir(os.getcwd())))
+    if len(images) is 0:
+        print("No base image found.")
+        print("(Hint: https://micropython.org/download/esp32/)")
+        exit()
+    elif len(images) is 1:
+        base_image = images[0]
+        print("No base image specified, but found {:s} in the current directory...".format(base_image))
+    else:
+        base_image = userSelect(images, "Which image?")
+
+
+    print("Base image: {:s}".format(base_image))
+    if not YESno("Do you want to use this image?"):
+        print("Please provide a valid base image.")
+        exit()
+
+    # TODO: We could try to check base image for validity
+    # TODO: Or maybe offer to automagically download a recent image?
+
 # Confirm user's intent:
 
 print("Using port {:s}...".format(port))
@@ -128,7 +153,7 @@ if not yesNO("Are you sure you want to proceed?"):
 
 try:
     print(subprocess.check_call(["esptool.py", "--chip", "esp32", "--port", port, "erase_flash"]))
-    print(subprocess.check_call(["esptool.py", "--chip", "esp32", "--port", port, "write_flash", "-z", "0x1000", "/home/c22/Downloads/esp32-20190517-v1.10-352-g2630d3e51.bin"]))
+    print(subprocess.check_call(["esptool.py", "--chip", "esp32", "--port", port, "write_flash", "-z", "0x1000", base_image]))
 except subprocess.CalledProcessError as e:
     print("\n !OH NO! esptool failed to flash base image.\nMaybe check the permissions on your serial port?\n")
     raise(e)

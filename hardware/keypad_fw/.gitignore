@@ -3,8 +3,8 @@ __pycache__/
 
 *.key
 *.cert
+*.bin
 
 config
 checksums.txt
 ostiarius-kpdfw-v*.tar
-
