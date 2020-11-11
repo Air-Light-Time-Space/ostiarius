@@ -139,13 +139,17 @@ except IndexError:
     # TODO: We could try to check base image for validity
     # TODO: Or maybe offer to automagically download a recent image?
 
-# Confirm user's intent:
+# Confirm user intent:
 
 print("Using port {:s}...".format(port))
 print("\n !! WARNING !!\n\nThis operation will overwrite all settings and data on the attached device.\n")
-if not yesNO("Are you sure you want to proceed?"):
-    print("Operation aborted. Goodbye.")
-    exit()
+
+try:
+    (sys.argv[1], sys.argv[2]) # User seems pretty sure of themself
+except IndexError:
+    if not yesNO("Are you sure you want to proceed?"):
+        print("Operation aborted. Goodbye.")
+        exit()
 
 ###############################################################################
 
