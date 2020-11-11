@@ -151,6 +151,34 @@ except IndexError:
         print("Operation aborted. Goodbye.")
         exit()
 
+# Generate SSL keys:
+
+if os.path.exists('public.cert') and os.path.exists('private.key'):     # The ostiarius server will replace the temporary certs
+    certfile = 'public.cert'                                            # pre-loaded onto the device with new ones that it has signed
+    certkey = 'private.key'                                             # so this doesn't matter too much. But if you want to deploy
+else:                                                                   # with a pre-signed certificate you can put it here
+    #################################################
+    from os import sys, path                        #
+    p = path.dirname    # p stands for parent       #
+    rootpath = (p(p(p(path.abspath(__file__)))))    #
+    sys.path.append(rootpath)                       #
+    #################################################
+    # This stupid hack let's us steal a function from
+    # the ostiarius script in the project's root directory
+    #########################################
+    from ostiarius import generate_ssl_cert #                           # The temporary certificate is really only needed for doing
+                                                                        # SSL of the webadmin page, so if you're not using the webadmin
+    print("Generating SSL certificate...")                              # then none of this matters at all and you can ignore it
+    cert = generate_ssl_cert(state_name="new", locality_name="Temporary", common_name="Certificate", hush = True)
+    with open("public.cert", "w") as cert_out:
+        with open("private.key", "w") as key_out:                       # If you have a "public.cert" file /or/ a "private.key" file
+            cert_out.write(cert[0])                                     # in the current directory (but not both) then it will get clobbered
+            key_out.write(cert[1])                                                                                              # Sorry
+    certfile = 'public.cert'                                            # The temporary credentials aren't deleted, in case
+    certkey = 'private.key'                                             # you want to re-use them in the next deployment
+                                                                        # But you may also want to securely delete them
+
+
 ###############################################################################
 
 # Here is the deployment...
@@ -172,8 +200,8 @@ print("Please do not unplug or interrupt this host or the device!")
 time.sleep(2) # Give the thing a chance to reboot
 
 print("Firmware uploaded..." if subprocess.call(["ampy", "-p", port, "put", firmware]) is 0 else "Failed to upload firmware.")
-print("Public certificate uploaded..." if subprocess.call(["ampy", "-p", port, "put", "public.cert"]) is 0 else "Failed to upload public cert file.")
-print("Private key uploaded..." if subprocess.call(["ampy", "-p", port, "put", "private.key"]) is 0 else "Failed to upload private key file.")
+print("Public certificate uploaded..." if subprocess.call(["ampy", "-p", port, "put", certfile]) is 0 else "Failed to upload public cert file.")
+print("Private key uploaded..." if subprocess.call(["ampy", "-p", port, "put", certkey]) is 0 else "Failed to upload private key file.")
 print("Bootstrap script uploaded..." if subprocess.call(["ampy", "-p", port, "put", "bootstrap.py"]) is 0 else "Failed to upload bootstrap script.")
 print("Running bootstrap...")
 print("Bootstrap script finished without errors." if subprocess.call(["ampy", "-p", port, "run", "bootstrap.py"]) is 0 else "There was a problem running the bootstrap script on the target device.\n Consider checking the device's internet connectivity.")
