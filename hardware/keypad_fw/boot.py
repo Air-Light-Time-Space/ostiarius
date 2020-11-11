@@ -49,6 +49,8 @@ loop.create_task(kpd.scan_keypad())
 loop.create_task(watch_events(kpd))
 
 if not config.DISABLE_ADMIN:
+    if config.DEBUG: print(gc.mem_free())
+    gc.collect()
     from webadmin import WebAdmin
 
     if set(os.listdir()).issuperset(set(["public.cert", "private.key"])):
