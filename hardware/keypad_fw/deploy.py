@@ -177,4 +177,4 @@ print("Private key uploaded..." if subprocess.call(["ampy", "-p", port, "put", "
 print("Bootstrap script uploaded..." if subprocess.call(["ampy", "-p", port, "put", "bootstrap.py"]) is 0 else "Failed to upload bootstrap script.")
 print("Running bootstrap...")
 print("Bootstrap script finished without errors." if subprocess.call(["ampy", "-p", port, "run", "bootstrap.py"]) is 0 else "There was a problem running the bootstrap script on the target device.\n Consider checking the device's internet connectivity.")
-print("Bootstrap file removed from device." if subprocess.call(["ampy", "-p", port, "rm", "bootstrap.py"]) else "Failed to remove bootstrap script.")
+print("Bootstrap file removed from device." if subprocess.call(["ampy", "-p", port, "rm", "bootstrap.py"]) is 0 else "Failed to remove bootstrap script.")
