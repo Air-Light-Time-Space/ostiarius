@@ -167,7 +167,8 @@ import make_firmware
 
 firmware = "{:s}.tar".format(make_firmware.version)
 
-print("Configuring new device, please do not unplug or interrupt this host or the device (this may take a long time)...")
+print("Configuring new device (this may take a long time)...")
+print("Please do not unplug or interrupt this host or the device!")
 time.sleep(2) # Give the thing a chance to reboot
 
 print("Firmware uploaded..." if subprocess.call(["ampy", "-p", port, "put", firmware]) is 0 else "Failed to upload firmware.")
