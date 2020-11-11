@@ -163,12 +163,13 @@ import make_firmware
 
 firmware = "{:s}.tar".format(make_firmware.version)
 
+print("Configuring new device, please do not unplug or interrupt this host or the device (this may take a long time)...")
 time.sleep(2) # Give the thing a chance to reboot
 
-print(subprocess.call(["ampy", "-p", port, "put", firmware]))
-print(subprocess.call(["ampy", "-p", port, "put", "public.cert"]))
-print(subprocess.call(["ampy", "-p", port, "put", "private.key"]))
-print(subprocess.call(["ampy", "-p", port, "put", "bootstrap.py"]))
+print("Firmware uploaded..." if subprocess.call(["ampy", "-p", port, "put", firmware]) is 0 else "Failed to upload firmware.")
+print("Public certificate uploaded..." if subprocess.call(["ampy", "-p", port, "put", "public.cert"]) is 0 else "Failed to upload public cert file.")
+print("Private key uploaded..." if subprocess.call(["ampy", "-p", port, "put", "private.key"]) is 0 else "Failed to upload private key file.")
+print("Bootstrap script uploaded..." if subprocess.call(["ampy", "-p", port, "put", "bootstrap.py"]) is 0 else "Failed to upload bootstrap script.")
 print("Running bootstrap...")
-print(subprocess.call(["ampy", "-p", port, "run", "bootstrap.py"]))
-print(subprocess.call(["ampy", "-p", port, "rm", "bootstrap.py"]))
+print("Bootstrap script finished without errors." if subprocess.call(["ampy", "-p", port, "run", "bootstrap.py"]) is 0 else "There was a problem running the bootstrap script on the target device.\n Consider checking the device's internet connectivity.")
+print("Bootstrap file removed from device." if subprocess.call(["ampy", "-p", port, "rm", "bootstrap.py"]) else "Failed to remove bootstrap script.")
